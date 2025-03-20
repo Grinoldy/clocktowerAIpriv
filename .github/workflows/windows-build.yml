@@ -43,7 +43,7 @@ jobs:
       # If your .csproj uses <TargetFramework>net7.0-windows</TargetFramework>, 
       # check the actual folder name under bin/Release.
       - name: Upload build artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: published-build
           path: |
