@@ -23,11 +23,11 @@ jobs:
 
       # 3. Restore NuGet packages for the whole solution
       - name: Restore
-        run: dotnet restore ./Clocktower.sln
+        run: dotnet restore ./Clocktower/Clocktower.sln
 
       # 4. Build the solution in Release mode
       - name: Build
-        run: dotnet build ./Clocktower.sln --configuration Release
+        run: dotnet build ./Clocktower/Clocktower.sln --configuration Release
 
       # 5. Publish the 'Clocktower' WPF project as a self-contained Windows exe
       #    (If you also want to publish ChatApplication, you can repeat this step.)
