@@ -9,26 +9,42 @@ on:
 jobs:
   build-windows:
     runs-on: windows-latest
-    steps:
-      - uses: actions/checkout@v2
 
+    steps:
+      # 1. Check out your repository
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      # 2. Install .NET SDK (adjust the version if you need .NET 6, etc.)
       - name: Setup .NET
         uses: actions/setup-dotnet@v2
         with:
-          dotnet-version: '7.0.x'  # or 6.0.x, or whatever matches the project
+          dotnet-version: '7.0.x'
 
-      - name: Restore dependencies
-        run: dotnet restore
+      # 3. Restore dependencies for the entire solution
+      - name: Restore
+        run: dotnet restore Clocktower.sln
 
+      # 4. Build the entire solution in Release mode
       - name: Build
-        run: dotnet build --configuration Release
+        run: dotnet build Clocktower.sln --configuration Release
 
-      - name: Publish
-        run: dotnet publish --configuration Release --runtime win-x64 --self-contained true
+      # 5. (Optional) Publish the main project(s)
+      #
+      # You can publish individual projects if you want the final .exe for each.
+      # Example: to publish the "Clocktower" WPF app as a self-contained win-x64:
+      - name: Publish Clocktower
+        run: dotnet publish Clocktower/Clocktower.csproj --configuration Release --runtime win-x64 --self-contained true
 
+      # 6. Upload published artifacts 
+      #
+      # Adjust the 'path' to match where the final files land:
+      # Typically: bin/Release/net7.0-windows/win-x64/publish
+      # If your .csproj uses <TargetFramework>net7.0-windows</TargetFramework>, 
+      # check the actual folder name under bin/Release.
       - name: Upload build artifact
         uses: actions/upload-artifact@v3
         with:
           name: published-build
           path: |
-            **/bin/Release/net7.0/win-x64/publish
+            Clocktower/Clocktower/bin/Release/net7.0-windows/win-x64/publish
