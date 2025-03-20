@@ -32,10 +32,7 @@ jobs:
       # 5. Publish the 'Clocktower' WPF project as a self-contained Windows exe
       #    (If you also want to publish ChatApplication, you can repeat this step.)
       - name: Publish Clocktower
-        run: dotnet publish ./Clocktower/Clocktower.csproj \
-          --configuration Release \
-          --runtime win-x64 \
-          --self-contained true
+        run: dotnet publish ./Clocktower/Clocktower.csproj --configuration Release --runtime win-x64 --self-contained true
 
       # 6. Upload the published files as an artifact you can download
       - name: Upload build artifact
