@@ -27,7 +27,7 @@ jobs:
         run: dotnet publish --configuration Release --runtime win-x64 --self-contained true
 
       - name: Upload build artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: published-build
           path: |
