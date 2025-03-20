@@ -1,0 +1,34 @@
+name: Windows Build
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: '7.0.x'  # or 6.0.x, or whatever matches the project
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --configuration Release
+
+      - name: Publish
+        run: dotnet publish --configuration Release --runtime win-x64 --self-contained true
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: published-build
+          path: |
+            **/bin/Release/net7.0/win-x64/publish
