@@ -3,41 +3,53 @@ name: Windows Build
 on:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
 
 jobs:
   build-windows:
     runs-on: windows-latest
-
     steps:
-      # 1. Check out your repository code
       - name: Checkout
         uses: actions/checkout@v2
 
-      # 2. Set up .NET (change '7.0.x' if your project targets another version)
       - name: Setup .NET
         uses: actions/setup-dotnet@v2
         with:
-          dotnet-version: '8.0.x'
+          dotnet-version: '7.0.x'  # or 6.0.x as needed
 
-      # 3. Restore NuGet packages for the whole solution
-      - name: Restore
-        run: dotnet restore ./Clocktower/Clocktower.sln
+      - name: Restore solution
+        run: dotnet restore ./Clocktower.sln
 
-      # 4. Build the solution in Release mode
-      - name: Build
-        run: dotnet build ./Clocktower/Clocktower.sln --configuration Release
+      - name: Build solution
+        run: dotnet build ./Clocktower.sln --configuration Release
 
-      # 5. Publish the 'Clocktower' WPF project as a self-contained Windows exe
-      #    (If you also want to publish ChatApplication, you can repeat this step.)
+      # Publish the Clocktower WPF/WinForms (self-contained exe)
       - name: Publish Clocktower
-        run: dotnet publish ./Clocktower/ChatApplication/ChatApplication.csproj --configuration Release --runtime win-x64 --self-contained true
+        run: dotnet publish ./Clocktower/Clocktower/Clocktower.csproj \
+          --configuration Release \
+          --runtime win-x64 \
+          --self-contained true
 
-      # 6. Upload the published files as an artifact you can download
-      - name: Upload build artifact
-        uses: actions/upload-artifact@v4
+      # Publish ChatApplication (if it's also an exe)
+      - name: Publish ChatApplication
+        run: dotnet publish ./Clocktower/ChatApplication/ChatApplication.csproj \
+          --configuration Release \
+          --runtime win-x64 \
+          --self-contained true
+
+      # Publish DiscordChatBot (if it's also an exe)
+      - name: Publish DiscordChatBot
+        run: dotnet publish ./Clocktower/DiscordChatBot/DiscordChatBot.csproj \
+          --configuration Release \
+          --runtime win-x64 \
+          --self-contained true
+
+      # Upload artifacts
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v5
         with:
-          name: published-build
-          # Update the path if your publish folder has a different name/framework
-          path: ./Clocktower/Clocktower/bin/Release/net7.0-windows/win-x64/publish
+          name: published-builds
+          # You can include multiple paths by separating them with newlines
+          path: |
+            Clocktower/Clocktower/bin/Release/net7.0-windows/win-x64/publish
+            Clocktower/ChatApplication/ChatApplication/bin/Release/net7.0-windows/win-x64/publish
+            Clocktower/DiscordChatBot/DiscordChatBot/bin/Release/net7.0-windows/win-x64/publish
