@@ -7,6 +7,10 @@ on:
 jobs:
   build-windows:
     runs-on: windows-latest
+
+    env:
+      OPENAI_APIKEY: ${{ secrets.OPENAI_APIKEY }}
+    
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -25,11 +29,6 @@ jobs:
       # Publish the Clocktower WPF/WinForms (self-contained exe)
       - name: Publish Clocktower
         run: dotnet publish ./Clocktower/Clocktower/Clocktower.csproj --configuration Release --runtime win-x64 --self-contained true
-        
-      - name: Run the app with your API key
-        run: dotnet run --project ./Clocktower/OpenAi/OpenAi.csproj
-        env:
-          OPENAI_APIKEY: ${{ secrets.OPENAI_APIKEY }}
           
       # Upload artifacts
       - name: Upload build artifacts
