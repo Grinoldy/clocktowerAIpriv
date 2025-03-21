@@ -23,12 +23,12 @@ jobs:
         run: dotnet build ./Clocktower/Clocktower.sln --configuration Release
 
       # Publish the Clocktower WPF/WinForms (self-contained exe)
-      #- name: Publish Clocktower
-      #  run: dotnet publish ./Clocktower/Clocktower/Clocktower.csproj --configuration Release --runtime win-x64 --self-contained true
+      - name: Publish Clocktower
+        run: dotnet publish ./Clocktower/Clocktower/Clocktower.csproj --configuration Release --runtime win-x64 --self-contained true
 
       # Publish ChatApplication (if it's also an exe)
-      - name: Publish ChatApplication
-        run: dotnet publish ./Clocktower/ChatApplication/ChatApplication.csproj --configuration Release --runtime win-x64 --self-contained true
+      #- name: Publish ChatApplication
+      #  run: dotnet publish ./Clocktower/ChatApplication/ChatApplication.csproj --configuration Release --runtime win-x64 --self-contained true
 
       # Publish DiscordChatBot (if it's also an exe)
       #- name: Publish DiscordChatBot
