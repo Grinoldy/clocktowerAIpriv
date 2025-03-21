@@ -27,7 +27,7 @@ jobs:
         run: dotnet publish ./Clocktower/Clocktower/Clocktower.csproj --configuration Release --runtime win-x64 --self-contained true
         
       - name: Run the app with your API key
-        run: dotnet run --project ./OpenAi/OpenAi.csproj
+        run: dotnet run --project ./Clocktower/OpenAi/OpenAi.csproj
         env:
           OPENAI_APIKEY: ${{ secrets.OPENAI_APIKEY }}
           
