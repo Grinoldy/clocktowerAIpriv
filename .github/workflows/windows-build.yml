@@ -17,10 +17,10 @@ jobs:
           dotnet-version: '7.0.x'  # or 6.0.x as needed
 
       - name: Restore solution
-        run: dotnet restore ./Clocktower.sln
+        run: dotnet restore ./Clocktower/Clocktower.sln
 
       - name: Build solution
-        run: dotnet build ./Clocktower.sln --configuration Release
+        run: dotnet build ./Clocktower/Clocktower.sln --configuration Release
 
       # Publish the Clocktower WPF/WinForms (self-contained exe)
       - name: Publish Clocktower
