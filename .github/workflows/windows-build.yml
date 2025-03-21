@@ -25,15 +25,12 @@ jobs:
       # Publish the Clocktower WPF/WinForms (self-contained exe)
       - name: Publish Clocktower
         run: dotnet publish ./Clocktower/Clocktower/Clocktower.csproj --configuration Release --runtime win-x64 --self-contained true
-
-      # Publish ChatApplication (if it's also an exe)
-      #- name: Publish ChatApplication
-      #  run: dotnet publish ./Clocktower/ChatApplication/ChatApplication.csproj --configuration Release --runtime win-x64 --self-contained true
-
-      # Publish DiscordChatBot (if it's also an exe)
-      #- name: Publish DiscordChatBot
-      #  run: dotnet publish ./Clocktower/DiscordChatBot/DiscordChatBot.csproj --configuration Release --runtime win-x64 --self-contained true
-
+        
+      - name: Run the app with your API key
+        run: dotnet run --project ./OpenAi/OpenAi.csproj
+        env:
+          OPENAI_APIKEY: ${{ secrets.OPENAI_APIKEY }}
+          
       # Upload artifacts
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
